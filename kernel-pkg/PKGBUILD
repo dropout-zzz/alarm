@@ -1,0 +1,41 @@
+pkgname=linux-msm8956
+desc="Linux kernel and modules for Qualcomm Snapdragon 650/652/653 platforms"
+pkgver=7.0.0
+_dropout_kernel_ver="${pkgver}-msm8956+"
+pkgrel=1
+arch=('aarch64')
+url="https://codeberg.org/msm8956-mainline/linux"
+license=('GPL-2.0-only')
+options=('!debug' '!strip')
+depends=('coreutils' 'kmod' 'mkinitcpio>=0.7')
+provides=("linux=${pkgver}")
+conflicts=('linux')
+optdepends=('linux-firmware: firmware images needed for some devices'
+            'wireless-regdb: to set the correct wireless channels of your country')
+
+package() {
+  if [ -z "$dropout_kernel_bootstrap" ]; then
+    echo Please set build directory.
+    false
+  fi
+
+  cd $dropout_kernel_bootstrap
+
+  local modulesdir="$pkgdir/usr/lib/modules/$_dropout_kernel_ver"
+
+  echo "Installing boot image and dtb..."
+  # systemd expects to find the kernel here to allow hibernation
+  # https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
+  install -Dm644 arch/arm64/boot/vmlinuz "$modulesdir/vmlinuz"
+  install -Dm644 arch/arm64/boot/dts/qcom/msm8976-360-qk1605.dtb "${pkgdir}/boot/msm8976-360-qk1605.dtb"
+
+  # Used by mkinitcpio to name the kernel
+  echo "$pkgname" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
+
+  echo "Installing modules..."
+  make ARCH=arm64 LLVM=1 INSTALL_MOD_PATH="$pkgdir/usr" \
+    INSTALL_MOD_STRIP=1 DEPMOD=/doesnt/exist modules_install  # Suppress depmod
+
+  # remove build link
+  rm "$modulesdir"/build
+}
