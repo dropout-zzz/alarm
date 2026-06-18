@@ -1,5 +1,5 @@
 pkgname=linux-msm8956
-desc="Linux kernel and modules for Qualcomm Snapdragon 650/652/653 platforms"
+pkgdesc="Linux kernel and modules for Qualcomm Snapdragon 650/652/653 platforms"
 pkgver=7.0.0
 _dropout_kernel_ver="${pkgver}-msm8956+"
 pkgrel=1
