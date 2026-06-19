@@ -1,0 +1,7 @@
+# Static information about the filesystems.
+# See fstab(5) for details.
+
+# <file system> <dir> <type> <options> <dump> <pass>
+# /dev/block/mmcblk0p52
+UUID=d97d785b-e5f0-46b7-859d-0c92434384ca	/         	ext4      	rw,relatime	0 1
+
