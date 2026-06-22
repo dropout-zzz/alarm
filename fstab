@@ -5,3 +5,6 @@
 # /dev/block/mmcblk0p52
 UUID=d97d785b-e5f0-46b7-859d-0c92434384ca	/         	ext4      	rw,relatime	0 1
 
+# /dev/block/mmcblk0p21
+PARTUUID=a18c2c59-1cea-6fad-f196-26bb54c9da1a              /boot     	ext2      	rw,relatime,offset=524288	0 0
+
