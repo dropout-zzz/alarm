@@ -19,7 +19,7 @@ package() {
     false
   fi
 
-  cd $dropout_kernel_bootstrap
+  cd "$dropout_kernel_bootstrap"
 
   local modulesdir="$pkgdir/usr/lib/modules/$_dropout_kernel_ver"
 
